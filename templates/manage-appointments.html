@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Family Doctor: Manage Appointment</title>
-  <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-
-<style>
+{% extends 'base.html' %}
+{% block style %}
   .card-margin {
       margin-bottom: 1.875rem;
   }
@@ -347,9 +334,9 @@
       outline: 0;
       box-shadow: none
   }
-</style>
+  {% endblock style %}
 
-<body>
+  {% block content %}
 
 
     <div class="container mt-5">
@@ -359,101 +346,42 @@
             </h3>
         </div>
         <div class="row">
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Name Surname</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">09</span>
-                                    <span class="widget-49-date-month">apr</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <span class="widget-49-pro-title">email@email.com</span>
-                                    <span class="widget-49-meeting-time">+1 0356 5656 5 656</span>
-                                </div>
-                            </div>
-                            <div class="widget-49-meeting-points">
-                                <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam eum magnam veniam nisi laudantium ea. Esse odio corporis adipisci ex.</span>
-                            </div>
-                            <hr class="w-100">
-                            <div class="form-group">
-                                <input type="date" name="date" class="form-control mb-2" 
-                                    placeholder="dd-mm-yyyy" value=""
-                                    min="1997-01-01" max="2030-12-31">
-                                <input class="btn-block btn-primary form-control" type="submit" value="Accept">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Name Surname</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">09</span>
-                                    <span class="widget-49-date-month">apr</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <span class="widget-49-pro-title">email@email.com</span>
-                                    <span class="widget-49-meeting-time">+1 0356 5656 5 656</span>
-                                </div>
-                            </div>
-                            <div class="widget-49-meeting-points">
-                                <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam eum magnam veniam nisi laudantium ea. Esse odio corporis adipisci ex.</span>
-                            </div>
-                            <hr class="w-100">
-                            <div class="form-group">
-                                <input type="date" name="date" class="form-control mb-2" 
-                                    placeholder="dd-mm-yyyy" value=""
-                                    min="1997-01-01" max="2030-12-31">
-                                <input class="btn-block btn-primary form-control" type="submit" value="Accept">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Name Surname</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">09</span>
-                                    <span class="widget-49-date-month">apr</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <span class="widget-49-pro-title">email@email.com</span>
-                                    <span class="widget-49-meeting-time">+1 0356 5656 5 656</span>
-                                </div>
-                            </div>
-                            <div class="widget-49-meeting-points">
-                                <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam eum magnam veniam nisi laudantium ea. Esse odio corporis adipisci ex.</span>
-                            </div>
-                            <hr class="w-100">
-                            <div class="form-group">
-                                <input type="date" name="date" class="form-control mb-2" 
-                                    placeholder="dd-mm-yyyy" value=""
-                                    min="1997-01-01" max="2030-12-31">
-                                <input class="btn-block btn-primary form-control" type="submit" value="Accept">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+          {% for app in appointments %}
+            <div class="col-lg-4">
+                <div class="card card-margin">
+                    <div class="card-header no-border">
+                        <h5 class="card-title">{{ app.first_name }} {{ app.last_name }}</h5>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="widget-49">
+                            <div class="widget-49-title-wrapper">
+                                <div class="widget-49-date-primary">
+                                    <span class="widget-49-date-day">{{ app.sent_date|date:"d" }}</span>
+                                    <span class="widget-49-date-month">{{ app.sent_date|date:"M" }}</span>
+                                </div>
+                                <div class="widget-49-meeting-info">
+                                    <span class="widget-49-pro-title">{{ app.email }}</span>
+                                    <span class="widget-49-meeting-time">{{ app.phone }}</span>
+                                </div>
+                            </div>
+                            <div class="widget-49-meeting-points">
+                                <span>{{ app.request }}</span>
+                            </div>
+                            <hr class="w-100">
+                            <div class="form-group">
+                                <input type="date" name="date" class="form-control mb-2" 
+                                    placeholder="dd-mm-yyyy" value=""
+                                    min="1997-01-01" max="2030-12-31">
+                                <input class="btn-block btn-primary form-control" type="submit" value="Accept">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            
         <div class="wrapper">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
@@ -470,14 +398,4 @@
         </div>
 
 
-  <!--  JQuery  -->
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <!--  Bootstrap tooltips  -->
-  <script type="text/javascript" src="js/popper.min.js"></script>
-  <!--  Bootstrap core JavaScript  -->
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-
-</body>
-
-</html>
+{% endblock content %}
