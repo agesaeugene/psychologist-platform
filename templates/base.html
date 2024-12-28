@@ -52,16 +52,14 @@
                   </li>
                   {% endif %}
                   <li class="nav-item" role="presentation">
-                    <a href="manage-appointments.html" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
+                    <a href="{% url 'manage' %}" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
                       <i class="far fa-bell" style="font-size: 20px; float: left; color: black">
                       </i>
                   </a>
-                  <span class="badge badge-danger">6</span>
+                  <span class="badge badge-danger">{{ count }}</span>
                 </li>
                   
-                    <!-- <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a>
-                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-                    </li> -->
+                  
                 </ul>
             </div>
         </div>
