@@ -1,5 +1,139 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block style %}
+.prof {
+  min-height: 100vh;
+  background: linear-gradient(to top, #2e395f, #006eff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.main-card {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s ease-in-out;
+  width: 240px; /* Equivalent to w-60 */
+}
+
+.panel-data {
+  transition: all 0.5s ease-in-out;
+  transform: translateY(-100%);
+  opacity: 0;
+  background-color: #101232;
+  color: white;
+}
+
+.panel-social {
+  position: absolute;
+  top: calc(100% + 80px);
+  left: 0;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  transform: translateY(-20px);
+  opacity: 0;
+  z-index: 0;
+  background-color: #101232;
+}
+
+.data-visible .panel-data {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.data-visible .panel-social {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.data-visible .main-card {
+  transform: translateY(80px);
+}
+
+.panel-content {
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.content-visible .panel-content {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.social-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.social-icon:hover {
+  transform: scale(1.25);
+}
+
+.profile-img {
+  width: 5rem;
+  height: 5rem;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.profile-img:hover {
+  opacity: 1;
+}
+
+.view-content-btn {
+  background-color: #101232;
+  transition: transform 0.3s;
+}
+
+.view-content-btn:hover {
+  transform: scale(1.1);
+}
+
+.toggle-btn:hover {
+  transform: scale(1.5);
+}
+
+.glow-effect::before,
+.glow-effect::after {
+  content: '';
+  position: absolute;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  filter: blur(24px);
+}
+
+.glow-effect::before {
+  background: #2563eb;
+  right: 12px;
+  top: 0;
+}
+
+.glow-effect::after {
+  background: #5eead4;
+  left: 16px;
+  bottom: 0;
+}
+
+.card-wrapper {
+  padding-bottom: 60px;
+  margin: 0 15px;
+}
+
+/* Add space between cards */
+.card-column {
+  margin-bottom: 2rem;
+}
+{% endblock style %}
 {% block cta %}
 <div class="container hero">
         <div class="row">
@@ -25,42 +159,168 @@
             </p>
         </div>
     </div>
+    
 
-    <div class="container">
-        <div class="row text-center">
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="{% static './img/team1.jpg' %}" alt="" class=" mh-100img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">Dr Sai</h5>
-                    <span class="small text-uppercase text-muted">Consultant anesthesiologist</span>
-                </div>
-            </div><!-- End -->
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="{% static '/img/team2.jpg' %}" alt="" class=" mh-100 rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">Dr Samuel </h5>
-                    <span class="small text-uppercase text-muted">Consultant cardiothoracic</span>
-                </div>
-            </div><!-- End -->
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="{% static '/img/team3.jpg' %}" alt="" class=" mh-100img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">Dr Sarra</h5>
-                    <span class="small text-uppercase text-muted">Consultant dermatologist</span>
-                </div>
-            </div><!-- End -->
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="{% static '/img/team4.png' %}" alt="" class=" mh-100img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">DR John</h5>
-                    <span class="small text-uppercase text-muted">Consultant Obstetrician</span>
-                </div>
-            </div><!-- End -->
-        </div>
+    <div class="prof" >
+      <div class="container">
+          <div class="row justify-content-center">
+              <!-- Card 1 -->
+              <div class="col-md-4 card-column d-flex justify-content-center">
+                  <div class="card-wrapper">
+                      <div class="position-relative glow-effect card-container" id="cardContainer1">
+                          <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
+                              <p class="mb-0">UI designer</p>
+                              <a href="#" class="text-white text-decoration-none">@mary</a>
+                          </div>
+                          <div class="main-card">
+                              <div class="glass-effect rounded p-4 text-center position-relative">
+                                  <img src="https://i.pravatar.cc/120?img=26" 
+                                       class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
+                                  <h3 class="fw-bold mt-4">Mary Jane</h3>
+                                  <p class="d-flex align-items-center justify-content-center gap-1 small">
+                                      <span class="material-symbols-outlined">location_on</span>
+                                      Atlanta, GA
+                                  </p>
+                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent1">
+                                      View More
+                                  </button>
+                              </div>
+                          </div>
+                          <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
+                              <!-- Social icons same as before -->
+                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                  <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
+                                  <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                  <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
+                              </svg>
+                          </div>
+                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData1">
+                              <span class="material-symbols-outlined">density_large</span>
+                          </button>
+                          <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
+                              <h2 class="fw-bold">Mary Jane</h2>
+                              <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
+                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent1">
+                                  <span class="material-symbols-outlined">close</span>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+  
+              <!-- Card 2 -->
+              <div class="col-md-4 card-column d-flex justify-content-center">
+                  <div class="card-wrapper">
+                      <div class="position-relative glow-effect card-container" id="cardContainer2">
+                          <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
+                              <p class="mb-0">PTSD Psychologist</p>
+                              <a href="#" class="text-white text-decoration-none">@Nelson</a>
+                          </div>
+                          <div class="main-card">
+                              <div class="glass-effect rounded p-4 text-center position-relative">
+                                  <img src="{% static '/img/service3.jpg' %}" 
+                                       class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
+                                  <h3 class="fw-bold mt-4">Nelson Kush</h3>
+                                  <p class="d-flex align-items-center justify-content-center gap-1 small">
+                                      <span class="material-symbols-outlined">location_on</span>
+                                      Nairobi, KE
+                                  </p>
+                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent2">
+                                      View More
+                                  </button>
+                              </div>
+                          </div>
+                          <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
+                              <!-- Social icons same as before -->
+                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                  <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
+                                  <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                  <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
+                              </svg>
+                          </div>
+                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData2">
+                              <span class="material-symbols-outlined">density_large</span>
+                          </button>
+                          <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
+                              <h2 class="fw-bold">Nelson Kush</h2>
+                              <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
+                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent2">
+                                  <span class="material-symbols-outlined">close</span>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+  
+              <!-- Card 3 -->
+              <div class="col-md-4 card-column d-flex justify-content-center">
+                  <div class="card-wrapper">
+                      <div class="position-relative glow-effect card-container" id="cardContainer3">
+                          <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
+                              <p class="mb-0">Relationship Psychologist</p>
+                              <a href="#" class="text-white text-decoration-none">@Abel</a>
+                          </div>
+                          <div class="main-card">
+                              <div class="glass-effect rounded p-4 text-center position-relative">
+                                  <img src="{% static '/img/service2.jpg' %}" 
+                                       class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
+                                  <h3 class="fw-bold mt-4">Abel Mkuru</h3>
+                                  <p class="d-flex align-items-center justify-content-center gap-1 small">
+                                      <span class="material-symbols-outlined">location_on</span>
+                                      Mombasa, KE
+                                  </p>
+                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent3">
+                                      View More
+                                  </button>
+                              </div>
+                          </div>
+                          <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
+                              <!-- Social icons same as before -->
+                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                  <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
+                                  <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
+                              </svg>
+                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                  <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
+                              </svg>
+                          </div>
+                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData3">
+                              <span class="material-symbols-outlined">density_large</span>
+                          </button>
+                          <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
+                              <h2 class="fw-bold">Abel Mkuru</h2>
+                              <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
+                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent3">
+                                  <span class="material-symbols-outlined">close</span>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
 </section><!-- End -->
 
@@ -218,5 +478,43 @@
             
       </div>
 </section>
+
+{% block script %}
+
+        function initializeCard(cardNumber) {
+            const cardContainer = document.getElementById(`cardContainer${cardNumber}`);
+            const toggleData = document.getElementById(`toggleData${cardNumber}`);
+            const viewContent = document.getElementById(`viewContent${cardNumber}`);
+            const closeContent = document.getElementById(`closeContent${cardNumber}`);
+            let isDataVisible = false;
+
+            toggleData.addEventListener('click', function() {
+                isDataVisible = !isDataVisible;
+                if (isDataVisible) {
+                    cardContainer.classList.add('data-visible');
+                    toggleData.innerHTML = '<span class="material-symbols-outlined">close</span>';
+                } else {
+                    cardContainer.classList.remove('data-visible');
+                    toggleData.innerHTML = '<span class="material-symbols-outlined">density_large</span>';
+                }
+            });
+
+            viewContent.addEventListener('click', function() {
+                cardContainer.classList.add('content-visible');
+            });
+
+            closeContent.addEventListener('click', function() {
+                cardContainer.classList.remove('content-visible');
+            });
+        }
+
+        // Initialize all cards when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCard(1);
+            initializeCard(2);
+            initializeCard(3);
+        });
+{% endblock script %} 
+
 
 {% endblock content %}

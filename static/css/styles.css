@@ -4,7 +4,9 @@
 
 .header {
     background: rgb(177, 177, 177) url("img/header.png") no-repeat fixed center; 
-    min-height: 1000px;
+    min-height: 100hv;
+    position: relative;
+    z-index: 1;
     font-family:'Source Sans Pro', sans-serif;
   }
   
@@ -15,13 +17,15 @@
   }
   
   .header .navbar {
-    background:transparent;
+    background: rgba(0, 0, 0, 0.7);
     padding-top:.75rem;
     padding-bottom:.75rem;
     color:#fff;
     border-radius:0;
     box-shadow:none;
     border:none;
+    position: relative;  
+    z-index: 2; 
   }
   
   @media (min-width:768px) {
@@ -43,6 +47,7 @@
   .header .navbar .navbar-collapse {
     border-top:1px solid rgba(255,255,255,0.3);
     margin-top:.5rem;
+    background: rgba(0, 0, 0, 0.7);
   }
   
   @media (min-width:768px) {
