@@ -22,7 +22,7 @@
 
   <div class="header" style="
     background: rgb(177, 177, 177) url('../static/img/header.png') no-repeat fixed center
-    {% if "appointment" in request.path %}
+    {% if "appointment" in request.path or "edit-profile" in request.path %}
      max-height:300px!important;min-height:300px!important;
     {% endif %}
     ">
@@ -53,6 +53,9 @@
                     <li class="nav-item" role="presentation">
                       <a class="nav-link active" href="{% url 'manage' %}">Manage</a>
                   </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link active" href="{% url 'edit-profile' %}">Edit Profile</a>
+                </li>
                   {% endif %}
                   <li class="nav-item" role="presentation">
                     <a href="{% url 'manage' %}" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
