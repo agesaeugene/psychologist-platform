@@ -97,37 +97,123 @@
 <div class="container mt-5">
     <div class="col-11 text-center mt-4 mb-4">
         <h3>{% if is_new_profile %}Create New Profile{% else %}Edit Profile{% endif %}</h3>
-        <!-- Add New Profile Button -->
         <a href="?new_profile=1" class="btn btn-success mb-4">Add New Profile</a>
     </div>
     
-    <!-- Only show existing profiles section if not creating a new profile -->
     {% if not is_new_profile %}
     <div class="row mb-4">
         {% for therapist in therapists %}
         <div class="col-md-4">
-            <a href="?profile_id={{ therapist.id }}" class="text-decoration-none">
-                <div class="card {% if selected_profile.id == therapist.id %}border-primary{% endif %}">
-                    <div class="card-body text-center">
-                        {% if therapist.image %}
-                            <img src="{{ therapist.image.url }}" 
-                                 alt="{{ therapist.name }}" 
-                                 class="rounded-circle mb-3" 
-                                 style="width: 100px; height: 100px; object-fit: cover;"
-                                 onerror="this.src='{% static 'default_profile.png' %}'">
-                        {% else %}
-                            <img src="{% static 'default_profile.png' %}" 
-                                 alt="Default Profile" 
-                                 class="rounded-circle mb-3" 
-                                 style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="card {% if selected_profile.id == therapist.id %}border-primary{% endif %}">
+                <div class="card-body text-center">
+                    {% if therapist.image %}
+                        <img src="{{ therapist.image.url }}" 
+                             alt="{{ therapist.name }}" 
+                             class="rounded-circle mb-3" 
+                             style="width: 100px; height: 100px; object-fit: cover;"
+                             onerror="this.src='{% static 'default_profile.png' %}'">
+                    {% else %}
+                        <img src="{% static 'default_profile.png' %}" 
+                             alt="Default Profile" 
+                             class="rounded-circle mb-3" 
+                             style="width: 100px; height: 100px; object-fit: cover;">
+                    {% endif %}
+                    <h5 class="card-title">{{ therapist.name }}</h5>
+                    <p class="card-text text-muted">{{ therapist.title }}</p>
+                    <div class="mt-3">
+                        <a href="?profile_id={{ therapist.id }}" class="btn btn-primary btn-sm">Edit</a>
+                        {% if therapist.id == object.id %}
+                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ therapist.id }})">
+                            Delete
+                        </button>
                         {% endif %}
-                        <h5 class="card-title">{{ therapist.name }}</h5>
-                        <p class="card-text text-muted">{{ therapist.title }}</p>
-                        {% if not is_new_profile and object %}
-<div class="form-group text-center mt-4">
-    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ object.id }})">
-        Delete Profile
-    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <form id="profileForm" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if is_new_profile %}
+                        <input type="hidden" name="new_profile" value="1">
+                        {% endif %}
+                        
+                        <div class="form-group mb-3">
+                            <label for="id_name">Name *</label>
+                            <input type="text" class="form-control" id="id_name" name="name" value="{{ form.name.value|default:'' }}" required>
+                            {% if form.name.errors %}
+                            <div class="text-danger">{{ form.name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_title">Title *</label>
+                            <input type="text" class="form-control" id="id_title" name="title" value="{{ form.title.value|default:'' }}" required>
+                            {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_location">Location</label>
+                            <input type="text" class="form-control" id="id_location" name="location" value="{{ form.location.value|default:'' }}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_bio">Bio</label>
+                            <textarea class="form-control" id="id_bio" name="bio" rows="4">{{ form.bio.value|default:'' }}</textarea>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_image">Profile Image</label>
+                            {% if object.image %}
+                            <div class="mb-2">
+                                <img src="{{ object.image.url }}" 
+                                     alt="Current Profile Image" 
+                                     class="profile-image-preview" 
+                                     id="currentImage">
+                            </div>
+                            {% endif %}
+                            <input type="file" class="form-control" id="id_image" name="image" accept="image/*">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_twitter">Twitter Profile URL</label>
+                            <input type="url" class="form-control" id="id_twitter" name="twitter" value="{{ form.twitter.value|default:'' }}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_linkedin">LinkedIn Profile URL</label>
+                            <input type="url" class="form-control" id="id_linkedin" name="linkedin" value="{{ form.linkedin.value|default:'' }}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_facebook">Facebook Profile URL</label>
+                            <input type="url" class="form-control" id="id_facebook" name="facebook" value="{{ form.facebook.value|default:'' }}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_website">Personal Website URL</label>
+                            <input type="url" class="form-control" id="id_website" name="website" value="{{ form.website.value|default:'' }}">
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" id="submitButton">
+                                {% if is_new_profile %}Create Profile{% else %}Update Profile{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Delete Confirmation Modal -->
@@ -148,120 +234,41 @@
         </div>
     </div>
 </div>
-{% endif %}
-                    </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-        
-    </div>
-    {% endif %}
-    
-
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card card-margin">
-                <div class="card-body">
-                    <div class="widget-49">
-                        <form id="profileForm" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {% if is_new_profile %}
-                            <input type="hidden" name="new_profile" value="1">
-                            {% endif %}
-                            
-                            <div class="form-group">
-                                <label for="id_name">Name</label>
-                                <input type="text" class="form-control" id="id_name" name="name" value="{{ object.name|default:'' }}" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_title">Title</label>
-                                <input type="text" class="form-control" id="id_title" name="title" value="{{ object.title|default:'' }}" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_location">Location</label>
-                                <input type="text" class="form-control" id="id_location" name="location" value="{{ object.location|default:'' }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_bio">Bio</label>
-                                <textarea class="form-control" id="id_bio" name="bio" rows="4">{{ object.bio|default:'' }}</textarea>
-                            </div>
-
-                            {% if object.image %}
-                            <div class="form-group">
-                                <img src="{{ object.image.url }}" 
-                                     alt="Profile Image" 
-                                     class="profile-image-preview" 
-                                     id="currentImage"
-                                     onerror="this.src='{% static 'default_profile.png' %}'">
-                            </div>
-                            {% endif %}
-
-                            <div class="form-group">
-                                <label for="id_image">Profile Image</label>
-                                <input type="file" class="form-control" id="id_image" name="image" {% if is_new_profile %}required{% endif %}>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_twitter">Twitter Profile URL</label>
-                                <input type="url" class="form-control" id="id_twitter" name="twitter" value="{{ object.twitter|default:'' }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_linkedin">LinkedIn Profile URL</label>
-                                <input type="url" class="form-control" id="id_linkedin" name="linkedin" value="{{ object.linkedin|default:'' }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_facebook">Facebook Profile URL</label>
-                                <input type="url" class="form-control" id="id_facebook" name="facebook" value="{{ object.facebook|default:'' }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_website">Personal Website URL</label>
-                                <input type="url" class="form-control" id="id_website" name="website" value="{{ object.website|default:'' }}">
-                            </div>
-
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary" id="updateButton">
-                                    {% if is_new_profile %}Create Profile{% else %}Update Profile{% endif %}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% block script %}
 <script>
 
-document.getElementById('id_image').addEventListener('change', function(e) {
-    if (e.target.files && e.target.files[0]) {
-        const reader = new FileReader();
-        const imagePreview = document.getElementById('currentImage') || document.createElement('img');
-        
-        if (!document.getElementById('currentImage')) {
-            imagePreview.id = 'currentImage';
-            imagePreview.className = 'profile-image-preview';
-            e.target.parentNode.insertBefore(imagePreview, e.target.nextSibling);
-        }
-        
-        reader.onload = function(e) {
-            imagePreview.src = e.target.result;
-        };
-        
-        reader.readAsDataURL(e.target.files[0]);
-    }
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('profileForm');
+    const imageInput = document.getElementById('id_image');
+    let profileToDelete = null;
+
+    // Image preview functionality
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                let imagePreview = document.getElementById('currentImage');
+                
+                if (!imagePreview) {
+                    imagePreview = document.createElement('img');
+                    imagePreview.id = 'currentImage';
+                    imagePreview.className = 'profile-image-preview mb-2';
+                    imagePreview.style.maxWidth = '200px';
+                    imagePreview.style.borderRadius = '50%';
+                    e.target.parentNode.insertBefore(imagePreview, e.target);
+                }
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                };
+                
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    }
+
+    // Form submission handling
     if (form) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -276,20 +283,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     headers: {
                         'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
                         'X-Requested-With': 'XMLHttpRequest'
-                    }
+                    },
+                    credentials: 'same-origin'
                 });
 
                 const data = await response.json();
                 
                 if (response.ok) {
-                    alert(data.message || 'Profile saved successfully!');
-                    if (data.redirect_url) {
-                        window.location.href = data.redirect_url;
-                    } else {
-                        window.location.href = window.location.pathname;
-                    }
+                    // Show success message
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'alert alert-success';
+                    messageDiv.textContent = data.message || 'Profile saved successfully!';
+                    form.insertBefore(messageDiv, form.firstChild);
+
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        if (data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        } else {
+                            window.location.reload();
+                        }
+                    }, 1500);
                 } else {
-                    alert(data.message || 'Error saving profile. Please try again.');
+                    // Handle validation errors
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(field => {
+                            const input = document.getElementById(`id_${field}`);
+                            if (input) {
+                                input.classList.add('is-invalid');
+                                const errorDiv = document.createElement('div');
+                                errorDiv.className = 'invalid-feedback';
+                                errorDiv.textContent = data.errors[field].join(' ');
+                                input.parentNode.appendChild(errorDiv);
+                            }
+                        });
+                    }
+                    alert(data.message || 'Error saving profile. Please check the form and try again.');
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -299,133 +328,77 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
 
-function initializeCard(cardNumber) {
-    const cardContainer = document.getElementById(`cardContainer${cardNumber}`);
-    const toggleData = document.getElementById(`toggleData${cardNumber}`);
-    const viewContent = document.getElementById(`viewContent${cardNumber}`);
-    const closeContent = document.getElementById(`closeContent${cardNumber}`);
-    let isDataVisible = false;
+    // Profile deletion handling
+    window.confirmDelete = function(profileId) {
+        profileToDelete = profileId;
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+        deleteModal.show();
+    };
 
-    if (toggleData) {
-        toggleData.addEventListener('click', function() {
-            isDataVisible = !isDataVisible;
-            if (isDataVisible) {
-                cardContainer.classList.add('data-visible');
-                toggleData.innerHTML = '<span class="material-symbols-outlined">close</span>';
-            } else {
-                cardContainer.classList.remove('data-visible');
-                toggleData.innerHTML = '<span class="material-symbols-outlined">density_large</span>';
-            }
-        });
-    }
-
-    if (viewContent && closeContent) {
-        viewContent.addEventListener('click', function() {
-            cardContainer.classList.add('content-visible');
-        });
-
-        closeContent.addEventListener('click', function() {
-            cardContainer.classList.remove('content-visible');
-        });
-    }
-}
-
-// Initialize cards
-document.addEventListener('DOMContentLoaded', function() {
-    [1, 2, 3].forEach(number => initializeCard(number));
-});
-
-let profileToDelete = null;
-
-function confirmDelete(profileId) {
-    profileToDelete = profileId;
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-    deleteModal.show();
-}
-
-document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
-    if (!profileToDelete) return;
-    
-    try {
-        const formData = new FormData();
-        formData.append('profile_id', profileToDelete);
-        formData.append('delete_profile', 'true');
-        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-        
-        const response = await fetch(window.location.href, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        const data = await response.json();
-        
-        if (response.ok) {
-            bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
-            alert(data.message || 'Profile deleted successfully!');
-            if (data.redirect_url) {
-                window.location.href = data.redirect_url;
-            }
-        } else {
-            alert(data.message || 'Error deleting profile. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An unexpected error occurred. Please try again.');
-    }
-});
-
-let profileToDelete = null;
-
-function confirmDelete(profileId) {
-    profileToDelete = profileId;
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-    deleteModal.show();
-}
-
-document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
-    if (!profileToDelete) return;
-    
-    try {
-        const formData = new FormData();
-        formData.append('profile_id', profileToDelete);
-        formData.append('delete_profile', 'true');
-        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-        
-        const response = await fetch(window.location.pathname, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        const data = await response.json();
-        
-        if (response.ok) {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
-            modal.hide();
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', async function() {
+            if (!profileToDelete) return;
             
-            if (data.message) {
-                alert(data.message);
+            try {
+                const formData = new FormData();
+                formData.append('profile_id', profileToDelete);
+                formData.append('delete_profile', 'true');
+                formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+                
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin'
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Hide the modal
+                    const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+                    deleteModal.hide();
+
+                    // Show success message
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'alert alert-success';
+                    messageDiv.textContent = data.message || 'Profile deleted successfully!';
+                    document.querySelector('.container').insertBefore(messageDiv, document.querySelector('.container').firstChild);
+
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        if (data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        } else {
+                            window.location.reload();
+                        }
+                    }, 1500);
+                } else {
+                    alert(data.message || 'Error deleting profile. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An unexpected error occurred. Please try again.');
             }
-            
-            if (data.redirect_url) {
-                window.location.href = data.redirect_url;
-            } else {
-                window.location.reload();
-            }
-        } else {
-            alert(data.message || 'Error deleting profile. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An unexpected error occurred. Please try again.');
+        });
     }
+
+    // Clear any validation errors when user starts typing
+    const formInputs = form.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+            const errorDiv = this.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        });
+    });
 });
 </script>
 {% endblock script %}

@@ -28,7 +28,7 @@
     ">
     
     <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-        <div class="container"><a class="navbar-brand" href="#">Family Doctor X</a>
+        <div class="container"><a class="navbar-brand" href="#">Mindful Horizons</a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -56,15 +56,15 @@
                   <li class="nav-item" role="presentation">
                     <a class="nav-link active" href="{% url 'edit-profile' %}">Edit Profile</a>
                 </li>
-                  {% endif %}
-                  <li class="nav-item" role="presentation">
-                    <a href="{% url 'manage' %}" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
-                      <i class="far fa-bell" style="font-size: 20px; float: left; color: black">
-                      </i>
-                  </a>
-                  <span class="badge badge-danger">{{ count }}</span>
+                <li class="nav-item" role="presentation">
+                  <a href="{% url 'manage' %}" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
+                    <i class="far fa-bell" style="font-size: 20px; float: left; color: black">
+                    </i>
+                </a>
+                <span class="badge badge-danger">{{ count }}</span>
                 </li>
-                  
+                  {% endif %}
+                                   
                   
                 </ul>
             </div>
