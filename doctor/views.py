@@ -16,6 +16,7 @@ from django.urls import reverse_lazy
 from .models import TherapistProfile
 from django.http import JsonResponse
 import os
+from django.conf import settings
 
 
 class HomeTemplateView(TemplateView):
@@ -119,16 +120,13 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('edit-profile')
 
     def get_object(self):
-        # Handle new profile creation
         if self.request.GET.get('new_profile'):
             return None
 
-        # Handle editing specific profile
         profile_id = self.request.GET.get('profile_id')
         if profile_id:
             return get_object_or_404(TherapistProfile, id=profile_id)
 
-        # Get default profile
         try:
             return TherapistProfile.objects.filter(username=self.request.user.username).first()
         except Exception as e:
@@ -137,28 +135,29 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         try:
-            # Get the count of existing profiles for this user
-            existing_profiles_count = TherapistProfile.objects.filter(
-                username=self.request.user.username
-            ).count()
-
-            if not form.instance.pk:  # This is a new profile
-                # Create a unique username by appending a number
+            if form.instance.pk:
+                # Updating existing profile
+                existing_profile = TherapistProfile.objects.get(pk=form.instance.pk)
+                form.instance.username = existing_profile.username
+                form.instance.profile_order = existing_profile.profile_order
+            else:
+                # Creating new profile
+                existing_profiles_count = TherapistProfile.objects.filter(
+                    username=self.request.user.username
+                ).count()
                 base_username = self.request.user.username
-                if existing_profiles_count > 0:
-                    form.instance.username = f"{base_username}_{existing_profiles_count + 1}"
-                else:
-                    form.instance.username = base_username
-                
+                form.instance.username = f"{base_username}_{existing_profiles_count + 1}" if existing_profiles_count > 0 else base_username
                 form.instance.profile_order = existing_profiles_count + 1
             
-            # Handle image upload
             if 'image' in self.request.FILES:
-                # Delete old image if it exists
-                if form.instance.pk and form.instance.image:
-                    if os.path.isfile(form.instance.image.path):
-                        os.remove(form.instance.image.path)
-                form.instance.image = self.request.FILES['image']
+                try:
+                    if form.instance.pk and form.instance.image:
+                        old_image_path = form.instance.image.path
+                        if os.path.isfile(old_image_path):
+                            os.remove(old_image_path)
+                    form.instance.image = self.request.FILES['image']
+                except Exception as img_error:
+                    messages.warning(self.request, "There was an issue with the image upload, but the profile was saved.")
 
             response = super().form_valid(form)
             
@@ -166,7 +165,8 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
                 return JsonResponse({
                     'status': 'success',
                     'message': 'Profile updated successfully!',
-                    'redirect_url': self.get_success_url()
+                    'redirect_url': reverse_lazy('edit-profile') + f'?profile_id={form.instance.id}',
+                    'image_url': form.instance.image.url if form.instance.image else None
                 })
             
             messages.success(self.request, "Profile saved successfully!")
@@ -182,62 +182,52 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
             return self.form_invalid(form)
 
     def post(self, request, *args, **kwargs):
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            if request.POST.get('delete_profile'):
-                try:
-                    profile_id = request.POST.get('profile_id')
-                    profile = get_object_or_404(TherapistProfile, id=profile_id)
-                    
-                    # Delete profile image if it exists
-                    if profile.image:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.POST.get('delete_profile'):
+            try:
+                profile_id = request.POST.get('profile_id')
+                profile = get_object_or_404(TherapistProfile, id=profile_id)
+                
+                if profile.image:
+                    try:
                         if os.path.isfile(profile.image.path):
                             os.remove(profile.image.path)
-                    
-                    profile.delete()
+                    except Exception as img_del_error:
+                        print(f"Error deleting image: {str(img_del_error)}")
+                
+                profile.delete()
 
-                    # Reorder remaining profiles
-                    remaining_profiles = TherapistProfile.objects.filter(
-                        username__startswith=self.request.user.username
-                    ).order_by('profile_order')
-                    for index, profile in enumerate(remaining_profiles, 1):
-                        profile.profile_order = index
-                        # Update username if it's a numbered profile
-                        if index > 1:
-                            profile.username = f"{self.request.user.username}_{index}"
-                        else:
-                            profile.username = self.request.user.username
-                        profile.save()
+                remaining_profiles = TherapistProfile.objects.filter(
+                    username__startswith=self.request.user.username
+                ).order_by('profile_order')
+                
+                for index, profile in enumerate(remaining_profiles, 1):
+                    profile.profile_order = index
+                    profile.username = self.request.user.username if index == 1 else f"{self.request.user.username}_{index}"
+                    profile.save()
 
-                    return JsonResponse({
-                        'status': 'success',
-                        'message': 'Profile deleted successfully!',
-                        'redirect_url': reverse_lazy('edit-profile')
-                    })
-                except Exception as e:
-                    return JsonResponse({
-                        'status': 'error',
-                        'message': str(e)
-                    }, status=400)
-
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Profile deleted successfully!',
+                    'redirect_url': reverse_lazy('edit-profile')
+                })
+            except Exception as e:
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Invalid form data',
-                    'errors': form.errors
+                    'message': str(e)
                 }, status=400)
-            return self.form_invalid(form)
+
+        return super().post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Create Profile' if self.request.GET.get('new_profile') else 'Edit Profile'
-        context['therapists'] = TherapistProfile.objects.filter(
-            username__startswith=self.request.user.username
-        ).order_by('profile_order')[:3]
-        context['is_new_profile'] = bool(self.request.GET.get('new_profile'))
+        context.update({
+            'title': 'Create Profile' if self.request.GET.get('new_profile') else 'Edit Profile',
+            'therapists': TherapistProfile.objects.filter(
+                username__startswith=self.request.user.username
+            ).order_by('profile_order'),
+            'is_new_profile': bool(self.request.GET.get('new_profile')),
+            'media_url': settings.MEDIA_URL
+        })
 
         profile_id = self.request.GET.get('profile_id')
         if profile_id:
