@@ -133,6 +133,189 @@
 .card-column {
   margin-bottom: 2rem;
 }
+/* General section styling */
+/* Service Section Base Styles */
+.services {
+  margin-bottom: 4rem;
+}
+
+/* Sessions Section */
+.sessions {
+  padding: 4rem 0;
+}
+
+.sessions__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.sessions__card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sessions__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Testimonials Section */
+.testimonials {
+  background-color: #f8f9fa;
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.testimonials blockquote {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 4px solid #0d6efd;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonials blockquote footer {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #6c757d;
+}
+
+/* Pricing Section */
+.pricing {
+  padding: 4rem 0;
+}
+
+.pricing__cards-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.pricing-card {
+  flex: 1 1 300px;
+  max-width: 350px;
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-card__heading {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.pricing-card__price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0d6efd;
+  margin-bottom: 1.5rem;
+}
+
+.pricing-card__price span {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: normal;
+}
+
+.pricing-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.pricing-card__features li {
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  position: relative;
+}
+
+.pricing-card__features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #0d6efd;
+}
+
+.pricing-card__cta {
+  margin-top: auto;
+  background-color: #0d6efd;
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.pricing-card__cta:hover {
+  background-color: #0b5ed7;
+  color: white;
+}
+
+/* Contact Section */
+.contact-detail-box {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-detail-box:hover {
+  transform: translateY(-5px);
+}
+
+.contact-detail-box i {
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+.contact-map {
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.form-main {
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sessions__cards,
+  .pricing__cards-inner {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-card {
+    max-width: 100%;
+  }
+  
+  .testimonials,
+  .pricing,
+  .contact-detail-box {
+    padding: 2rem 1rem;
+  }
+}
 {% endblock style %}
 {% block cta %}
 <div class="container hero">
@@ -151,349 +334,98 @@
 
 {% block content %}
 
-<section class="container py-5"  style="margin-block:200px;" id="team">
-    <div class="row text-center ">
-      <section class="container py-5"  style="margin-block:200px;" id="team">
-        <div class="row text-center ">
-            <div class="col-lg-8 mx-auto">
-                <h1 class="display-4">Our Team</h1>
-                <p class="lead">Rely on established and competent professionals.
-                </p>
-            </div>
-        </div>
-        
-    
-        <div class="prof" >
-          <div class="container">
-              <div class="row justify-content-center">
-                  <!-- Card 1 -->
-                  <div class="col-md-4 card-column d-flex justify-content-center">
-                      <div class="card-wrapper">
-                          <div class="position-relative glow-effect card-container" id="cardContainer1">
-                              <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
-                                  <p class="mb-0">UI designer</p>
-                                  <a href="#" class="text-white text-decoration-none">@mary</a>
-                              </div>
-                              <div class="main-card">
-                                  <div class="glass-effect rounded p-4 text-center position-relative">
-                                      <img src="https://i.pravatar.cc/120?img=26" 
-                                           class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
-                                      <h3 class="fw-bold mt-4">Mary Jane</h3>
-                                      <p class="d-flex align-items-center justify-content-center gap-1 small">
-                                          <span class="material-symbols-outlined">location_on</span>
-                                          Atlanta, GA
-                                      </p>
-                                      <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent1">
-                                          View More
-                                      </button>
-                                  </div>
-                              </div>
-                              <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
-                                  <!-- Social icons same as before -->
-                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                      <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                      <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                      <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
-                                  </svg>
-                              </div>
-                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData1">
-                                  <span class="material-symbols-outlined">density_large</span>
-                              </button>
-                              <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
-                                  <h2 class="fw-bold">Mary Jane</h2>
-                                  <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
-                                  <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent1">
-                                      <span class="material-symbols-outlined">close</span>
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-      
-                  <!-- Card 2 -->
-                  <div class="col-md-4 card-column d-flex justify-content-center">
-                      <div class="card-wrapper">
-                          <div class="position-relative glow-effect card-container" id="cardContainer2">
-                              <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
-                                  <p class="mb-0">PTSD Psychologist</p>
-                                  <a href="#" class="text-white text-decoration-none">@Nelson</a>
-                              </div>
-                              <div class="main-card">
-                                  <div class="glass-effect rounded p-4 text-center position-relative">
-                                      <img src="{% static '/img/service3.jpg' %}" 
-                                           class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
-                                      <h3 class="fw-bold mt-4">Nelson Kush</h3>
-                                      <p class="d-flex align-items-center justify-content-center gap-1 small">
-                                          <span class="material-symbols-outlined">location_on</span>
-                                          Nairobi, KE
-                                      </p>
-                                      <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent2">
-                                          View More
-                                      </button>
-                                  </div>
-                              </div>
-                              <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
-                                  <!-- Social icons same as before -->
-                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                      <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                      <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                      <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
-                                  </svg>
-                              </div>
-                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData2">
-                                  <span class="material-symbols-outlined">density_large</span>
-                              </button>
-                              <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
-                                  <h2 class="fw-bold">Nelson Kush</h2>
-                                  <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
-                                  <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent2">
-                                      <span class="material-symbols-outlined">close</span>
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-      
-                  <!-- Card 3 -->
-                  <div class="col-md-4 card-column d-flex justify-content-center">
-                      <div class="card-wrapper">
-                          <div class="position-relative glow-effect card-container" id="cardContainer3">
-                              <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
-                                  <p class="mb-0">Relationship Psychologist</p>
-                                  <a href="#" class="text-white text-decoration-none">@Abel</a>
-                              </div>
-                              <div class="main-card">
-                                  <div class="glass-effect rounded p-4 text-center position-relative">
-                                      <img src="{% static '/img/service2.jpg' %}" 
-                                           class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
-                                      <h3 class="fw-bold mt-4">Abel Mkuru</h3>
-                                      <p class="d-flex align-items-center justify-content-center gap-1 small">
-                                          <span class="material-symbols-outlined">location_on</span>
-                                          Mombasa, KE
-                                      </p>
-                                      <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent3">
-                                          View More
-                                      </button>
-                                  </div>
-                              </div>
-                              <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
-                                  <!-- Social icons same as before -->
-                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                      <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                      <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
-                                  </svg>
-                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                      <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
-                                  </svg>
-                              </div>
-                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData3">
-                                  <span class="material-symbols-outlined">density_large</span>
-                              </button>
-                              <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
-                                  <h2 class="fw-bold">Abel Mkuru</h2>
-                                  <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
-                                  <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent3">
-                                      <span class="material-symbols-outlined">close</span>
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        </div>
-    </section> <div class="col-lg-8 mx-auto">
-            <h1 class="display-4">Our Team</h1>
-            <p class="lead">Rely on established and competent professionals.
-            </p>
-        </div>
-    </div>
-    
+<section class="container py-5" style="margin-block:200px;" id="team">
+  <div class="row text-center">
+      <div class="col-lg-8 mx-auto">
+          <h1 class="display-4">Our Team</h1>
+          <p class="lead">Rely on established and competent professionals.</p>
+      </div>
+  </div>
 
-    <div class="prof" >
+  <div class="prof">
       <div class="container">
           <div class="row justify-content-center">
-              <!-- Card 1 -->
+              {% for therapist in therapists %}
               <div class="col-md-4 card-column d-flex justify-content-center">
                   <div class="card-wrapper">
-                      <div class="position-relative glow-effect card-container" id="cardContainer1">
+                      <div class="position-relative glow-effect card-container" id="cardContainer{{ forloop.counter }}">
                           <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
-                              <p class="mb-0">UI designer</p>
-                              <a href="#" class="text-white text-decoration-none">@mary</a>
+                              <p class="mb-0">{{ therapist.title }}</p>
+                              <a href="#" class="text-white text-decoration-none">@{{ therapist.username }}</a>
                           </div>
                           <div class="main-card">
                               <div class="glass-effect rounded p-4 text-center position-relative">
-                                  <img src="https://i.pravatar.cc/120?img=26" 
-                                       class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
-                                  <h3 class="fw-bold mt-4">Mary Jane</h3>
+                                  {% if therapist.image %}
+                                      <img src="{{ therapist.image.url }}" 
+                                           class="profile-img rounded-circle border border-4 border-white mx-auto d-block"
+                                           alt="{{ therapist.name }}">
+                                  {% else %}
+                                      <img src="{% static 'img/default-profile.jpg' %}" 
+                                           class="profile-img rounded-circle border border-4 border-white mx-auto d-block"
+                                           alt="{{ therapist.name }}">
+                                  {% endif %}
+                                  <h3 class="fw-bold mt-4">{{ therapist.name }}</h3>
                                   <p class="d-flex align-items-center justify-content-center gap-1 small">
                                       <span class="material-symbols-outlined">location_on</span>
-                                      Atlanta, GA
+                                      {{ therapist.location }}
                                   </p>
-                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent1">
+                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" 
+                                          id="viewContent{{ forloop.counter }}">
                                       View More
                                   </button>
                               </div>
                           </div>
                           <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
-                              <!-- Social icons same as before -->
-                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                  <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                  <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                  <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
-                              </svg>
+                              {% if therapist.twitter %}
+                              <a href="{{ therapist.twitter }}" target="_blank" class="text-white">
+                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
+                                  </svg>
+                              </a>
+                              {% endif %}
+                              {% if therapist.linkedin %}
+                              <a href="{{ therapist.linkedin }}" target="_blank" class="text-white">
+                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                      <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
+                                      <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
+                                  </svg>
+                              </a>
+                              {% endif %}
+                              {% if therapist.facebook %}
+                              <a href="{{ therapist.facebook }}" target="_blank" class="text-white">
+                                  <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
+                                  </svg>
+                              </a>
+                              {% endif %}
+                              {% if therapist.website %}
+                              <a href="{{ therapist.website }}" target="_blank" class="text-white">
+                                  <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                      <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
+                                  </svg>
+                              </a>
+                              {% endif %}
                           </div>
-                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData1">
+                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" 
+                                  id="toggleData{{ forloop.counter }}">
                               <span class="material-symbols-outlined">density_large</span>
                           </button>
                           <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
-                              <h2 class="fw-bold">Mary Jane</h2>
-                              <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
-                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent1">
+                              <h2 class="fw-bold">{{ therapist.name }}</h2>
+                              <p class="small mt-3">{{ therapist.bio }}</p>
+                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" 
+                                      id="closeContent{{ forloop.counter }}">
                                   <span class="material-symbols-outlined">close</span>
                               </button>
                           </div>
                       </div>
                   </div>
               </div>
-  
-              <!-- Card 2 -->
-              <div class="col-md-4 card-column d-flex justify-content-center">
-                  <div class="card-wrapper">
-                      <div class="position-relative glow-effect card-container" id="cardContainer2">
-                          <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
-                              <p class="mb-0">PTSD Psychologist</p>
-                              <a href="#" class="text-white text-decoration-none">@Nelson</a>
-                          </div>
-                          <div class="main-card">
-                              <div class="glass-effect rounded p-4 text-center position-relative">
-                                  <img src="{% static '/img/service3.jpg' %}" 
-                                       class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
-                                  <h3 class="fw-bold mt-4">Nelson Kush</h3>
-                                  <p class="d-flex align-items-center justify-content-center gap-1 small">
-                                      <span class="material-symbols-outlined">location_on</span>
-                                      Nairobi, KE
-                                  </p>
-                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent2">
-                                      View More
-                                  </button>
-                              </div>
-                          </div>
-                          <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
-                              <!-- Social icons same as before -->
-                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                  <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                  <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                  <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
-                              </svg>
-                          </div>
-                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData2">
-                              <span class="material-symbols-outlined">density_large</span>
-                          </button>
-                          <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
-                              <h2 class="fw-bold">Nelson Kush</h2>
-                              <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
-                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent2">
-                                  <span class="material-symbols-outlined">close</span>
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-  
-              <!-- Card 3 -->
-              <div class="col-md-4 card-column d-flex justify-content-center">
-                  <div class="card-wrapper">
-                      <div class="position-relative glow-effect card-container" id="cardContainer3">
-                          <div class="panel-data position-absolute top-0 start-0 w-100 rounded-top p-4 text-white">
-                              <p class="mb-0">Relationship Psychologist</p>
-                              <a href="#" class="text-white text-decoration-none">@Abel</a>
-                          </div>
-                          <div class="main-card">
-                              <div class="glass-effect rounded p-4 text-center position-relative">
-                                  <img src="{% static '/img/service2.jpg' %}" 
-                                       class="profile-img rounded-circle border border-4 border-white mx-auto d-block">
-                                  <h3 class="fw-bold mt-4">Abel Mkuru</h3>
-                                  <p class="d-flex align-items-center justify-content-center gap-1 small">
-                                      <span class="material-symbols-outlined">location_on</span>
-                                      Mombasa, KE
-                                  </p>
-                                  <button class="btn btn-sm view-content-btn text-white rounded-pill mt-3" id="viewContent3">
-                                      View More
-                                  </button>
-                              </div>
-                          </div>
-                          <div class="panel-social rounded p-4 d-flex justify-content-between align-items-center text-white">
-                              <!-- Social icons same as before -->
-                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M14.058 3.41c-1.807.767-2.995 2.453-3.056 4.38l-.002.182-.243-.023c-2.392-.269-4.498-1.512-5.944-3.531a1 1 0 00-1.685.092l-.097.186-.049.099c-.719 1.485-1.19 3.29-1.017 5.203l.03.273c.283 2.263 1.5 4.215 3.779 5.679l.173.107-.081.043c-1.315.663-2.518.952-3.827.9-1.056-.04-1.446 1.372-.518 1.878 3.598 1.961 7.461 2.566 10.792 1.6 4.06-1.18 7.152-4.223 8.335-8.433l.127-.495c.238-.993.372-2.006.401-3.024l.003-.332.393-.779.44-.862.214-.434.118-.247c.265-.565.456-1.033.574-1.43l.014-.056.008-.018c.22-.593-.166-1.358-.941-1.358l-.122.007a.997.997 0 00-.231.057l-.086.038a7.46 7.46 0 01-.88.36l-.356.115-.271.08-.772.214c-1.336-1.118-3.144-1.254-5.012-.554l-.211.084z"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                  <path d="M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                  <path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 00-4 0"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M18 2a1 1 0 01.993.883L19 3v4a1 1 0 01-.883.993L18 8h-3v1h3a1 1 0 01.991 1.131l-.02.112-1 4a1 1 0 01-.858.75L17 15h-2v6a1 1 0 01-.883.993L14 22h-4a1 1 0 01-.993-.883L9 21v-6H7a1 1 0 01-.993-.883L6 14v-4a1 1 0 01.883-.993L7 9h2V8a6 6 0 015.775-5.996L15 2h3z"/>
-                              </svg>
-                              <svg class="social-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                  <path d="M8 20l4-9M10.7 14c.437 1.263 1.43 2 2.55 2 2.071 0 3.75-1.554 3.75-4a5 5 0 10-9.7 1.7M12 12a9 9 0 110 18 9 9 0 010-18z"/>
-                              </svg>
-                          </div>
-                          <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 z-3" id="toggleData3">
-                              <span class="material-symbols-outlined">density_large</span>
-                          </button>
-                          <div class="panel-content position-absolute top-0 start-0 w-100 h-100 bg-white rounded p-4 z-3">
-                              <h2 class="fw-bold">Abel Mkuru</h2>
-                              <p class="small mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis soluta aliquam accusantium laborum.</p>
-                              <button class="position-absolute top-0 end-0 btn toggle-btn border-0 mt-3 me-3 text-secondary" id="closeContent3">
-                                  <span class="material-symbols-outlined">close</span>
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+              {% endfor %}
           </div>
       </div>
-    </div>
-</section><!-- End -->
+  </div>
+</section> <!-- End -->
 
 
 
@@ -501,89 +433,83 @@
   <div class="bg-primary text-center py-5 mb-4">
       <div class="container">
         <h1 class="fw-light text-white">Services</h1>
-        <p class="overview">We provide compassionate and expert care to our community. You are at the center of everything we do. Let us be your healthcare partner.</p>
+        <p class="overview">We offer personalized therapy services to support your mental health journey. Our experienced therapists are here to guide you through every step of your healing process.</p>
       </div>
     </div>
-  <div class="container">
-    <div class="row">
-      <!-- Team Member 1 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="{% static '/img/service1.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">Primary Care</h5>
-            <div class="card-text text-black-50">Your personalized medical professionals.</div>
-          </div>
+    <section id="sessions" class="sessions">
+      <div class="sessions__cards">
+        <div class="sessions__card">
+          <h3>Individual Therapy</h3>
+          <p>One-on-one sessions tailored to your unique needs and goals.</p>
+        </div>
+        <div class="sessions__card">
+          <h3>Couples Therapy</h3>
+          <p>Strengthen your relationship with guided counseling sessions.</p>
+        </div>
+        <div class="sessions__card">
+          <h3>Group Therapy</h3>
+          <p>Find support and encouragement in a safe group setting.</p>
         </div>
       </div>
-      <!-- Team Member 2 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="{% static '/img/service2.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">Dermatology</h5>
-            <div class="card-text text-black-50">Your skin care made easy.</div>
-          </div>
-        </div>
-      </div>
-      <!-- Team Member 3 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="{% static '/img/service3.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">Team Member</h5>
-            <div class="card-text text-black-50">Web Developer</div>
-          </div>
-        </div>
-      </div>
-      <!-- Team Member 4 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="{% static '/img/service4.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">PrEP Therapy</h5>
-            <div class="card-text text-black-50">Stay safe if you are at high exposure of HIV.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /.row -->
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <h2>What Our Clients Say</h2>
+      <blockquote>
+        <p>"These sessions changed my life. I feel more in control and at peace than ever before."</p>
+        <footer>- A Happy Client</footer>
+      </blockquote>
+      <blockquote>
+        <p>"Our couples therapy helped us communicate and rebuild trust. Highly recommend!"</p>
+        <footer>- Satisfied Couple</footer>
+      </blockquote>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <h2>Our Pricing Plans</h2>
+        <div class="pricing__cards">
+          <div class="pricing__cards-inner">
+            <div class="pricing-card">
+              <h3 class="pricing-card__heading">Individual Therapy</h3>
+              <p class="pricing-card__price">Kes 3000<span>/session</span></p>
+              <ul class="pricing-card__features">
+                <li>50-minute one-on-one session</li>
+                <li>Personalized treatment plan</li>
+                <li>Flexible scheduling</li>
+                <li>24/7 messaging support</li>
+              </ul>
+              <a href="#book-individual" class="pricing-card__cta">Book Session</a>
+            </div>
   
-  </div>
-</section>
-
-<section class="text-center conatiner" style="margin-block:200px;" id="reviews">
-    <h2>Satisfied Patients</h2>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Carousel indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>   
-        <!-- Wrapper for carousel items -->
-        <div class="carousel-inner">		
-            <div class="carousel-item active">
-                <div class="img-box"><img src="{% static '/img/patient1.jpg' %}" alt=""></div>
-                <p class="testimonial">Phasellus vitae suscipit justo. Mauris pharetra feugiat ante id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget rutrum.</p>
-                <p class="overview">Michael Holz</p>
+            <div class="pricing-card">
+              <h3 class="pricing-card__heading">Couples Therapy</h3>
+              <p class="pricing-card__price">kes 4000 <span>/session</span></p>
+              <ul class="pricing-card__features">
+                <li>75-minute couple session</li>
+                <li>Relationship assessment</li>
+                <li>Joint treatment planning</li>
+                <li>Between-session support</li>
+                <li>Communication tools</li>
+              </ul>
+              <a href="#book-couples" class="pricing-card__cta">Book Session</a>
             </div>
-            <div class="carousel-item">
-                <div class="img-box"><img src="{% static '/img/patient2.jpg' %}" alt=""></div>
-                <p class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem tempor, varius quam at, luctus dui. Mauris magna metus, dapibus nec turpis vel, semper malesuada ante. Vestibulum idac nisl bibendum scelerisque non non purus. Suspendisse varius nibh non aliquet.</p>
-                <p class="overview">Antonio Moreno</p>
+  
+            <div class="pricing-card">
+              <h3 class="pricing-card__heading">Group Therapy</h3>
+              <p class="pricing-card__price">kes 6000<span>/session</span></p>
+              <ul class="pricing-card__features">
+                <li>90-minute group session</li>
+                <li>Small group setting (6-8 people)</li>
+                <li>Peer support network</li>
+                <li>Weekly sessions</li>
+                <li>Community resources</li>
+              </ul>
+              <a href="#book-group" class="pricing-card__cta">Join Group</a>
             </div>
-            <div class="carousel-item">
-                <div class="img-box"><img src="{% static '/img/patient3.jpg' %}" alt=""></div>
-                <p class="testimonial">Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget nisi a mi suscipit tincidunt. Utmtc tempus dictum risus. Pellentesque viverra sagittis quam at mattis. Suspendisse potenti. Aliquam sit amet gravida nibh, facilisis gravida odio. Phasellus auctor velit.</p>
-                <p class="overview">Paula Wilson</p>
-                
-            </div>		
+          </div>
+          <div class="pricing-overlay"></div>
         </div>
-
-    </div>
-
-</section>
+      </section>
 
 
 <section id="contact" class="card m-4 p-4">
@@ -594,8 +520,8 @@
             <div class="contact-detail-box">
               <i class="far fa-envelope text-colored fa-3x"></i>
               <h4>Get In Touch</h4>
-              <abbr title="Phone">P:</abbr> (123) 456-7890<br>
-              E: <a href="mailto:email@email.com" class="text-muted">email@email.com</a>
+              <abbr title="Phone">P:</abbr> (+254) 741589416<br>
+              E: <a href="mailto:email@email.com" class="text-muted">email@eugenethebandit@gmail.com</a>
             </div>
           </div><!-- end col -->
   
@@ -605,8 +531,8 @@
               <h4>Our Location</h4>
   
               <address>
-              795 Folsom Ave, Suite 600<br>
-              San Francisco, CA 94107<br>
+              795 Folsom Ave, Spur Mall<br>
+              Nairobi , Ke 94107<br>
             </address>
             </div>
           </div><!-- end col -->
@@ -620,7 +546,7 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="contact-map">
-              <iframe src="https://www.google.com/maps/embed/v1/place?q=New+York+University&amp;key=AIzaSyBSFRN6WWGYwmFi498qXXsD2UwkbmD74v4" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width: 100%; height: 360px;"></iframe>
+              <iframe src="https://www.google.com/maps/embed/v1/place?q=Spur+Mall,+Ruiru,+Kenya&key=AIzaSyBSFRN6WWGYwmFi498qXXsD2UwkbmD74v4" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width: 100%; height: 360px;"></iframe>
             </div>
           </div><!-- end col -->
   
@@ -652,40 +578,50 @@
 
 {% block script %}
 <script>
-        function initializeCard(cardNumber) {
-            const cardContainer = document.getElementById(`cardContainer${cardNumber}`);
-            const toggleData = document.getElementById(`toggleData${cardNumber}`);
-            const viewContent = document.getElementById(`viewContent${cardNumber}`);
-            const closeContent = document.getElementById(`closeContent${cardNumber}`);
-            let isDataVisible = false;
+// Function to set up event listeners and animations for each card
+function initializeCard(cardNumber) {
+    const cardContainer = document.getElementById(`cardContainer${cardNumber}`);
+    const toggleData = document.getElementById(`toggleData${cardNumber}`);
+    const viewContent = document.getElementById(`viewContent${cardNumber}`);
+    const closeContent = document.getElementById(`closeContent${cardNumber}`);
+    let isDataVisible = false;
 
-            toggleData.addEventListener('click', function() {
-                isDataVisible = !isDataVisible;
-                if (isDataVisible) {
-                    cardContainer.classList.add('data-visible');
-                    toggleData.innerHTML = '<span class="material-symbols-outlined">close</span>';
-                } else {
-                    cardContainer.classList.remove('data-visible');
-                    toggleData.innerHTML = '<span class="material-symbols-outlined">density_large</span>';
-                }
-            });
+    if (!cardContainer || !toggleData || !viewContent || !closeContent) return;
 
-            viewContent.addEventListener('click', function() {
-                cardContainer.classList.add('content-visible');
-            });
-
-            closeContent.addEventListener('click', function() {
-                cardContainer.classList.remove('content-visible');
-            });
+    // Toggle data panel
+    toggleData.addEventListener('click', function() {
+        isDataVisible = !isDataVisible;
+        if (isDataVisible) {
+            cardContainer.classList.add('data-visible');
+            toggleData.innerHTML = '<span class="material-symbols-outlined">close</span>';
+        } else {
+            cardContainer.classList.remove('data-visible');
+            toggleData.innerHTML = '<span class="material-symbols-outlined">density_large</span>';
         }
+    });
 
-        // Initialize all cards when the document is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeCard(1);
-            initializeCard(2);
-            initializeCard(3);
-        });
-      </script>
+    // View content panel
+    viewContent.addEventListener('click', function() {
+        cardContainer.classList.add('content-visible');
+    });
+
+    // Close content panel
+    closeContent.addEventListener('click', function() {
+        cardContainer.classList.remove('content-visible');
+    });
+}
+
+// Initialize all cards when the document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all card containers
+    const cardContainers = document.querySelectorAll('.card-container');
+    
+    // Initialize each card with its index + 1
+    cardContainers.forEach((container, index) => {
+        initializeCard(index + 1);
+    });
+});
+</script>
 {% endblock script %} 
 
 

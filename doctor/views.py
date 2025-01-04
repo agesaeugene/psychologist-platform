@@ -17,10 +17,18 @@ from .models import TherapistProfile
 from django.http import JsonResponse
 import os
 from django.conf import settings
+from django.contrib.auth import authenticate, login
+from django.views import View
 
 
 class HomeTemplateView(TemplateView):
     template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get all therapist profiles ordered by profile_order
+        context['therapists'] = TherapistProfile.objects.all().order_by('profile_order')
+        return context
 
     def post(self, request):
         name = request.POST.get("name")
@@ -217,6 +225,7 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
                 }, status=400)
 
         return super().post(request, *args, **kwargs)
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -234,3 +243,27 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
             context['selected_profile'] = get_object_or_404(TherapistProfile, id=profile_id)
 
         return context
+    
+class CustomAdminLoginView(View):
+    template_name = 'admin/custom_login.html'
+    
+    def get(self, request):
+        # If user is already authenticated and is staff, redirect to home
+        if request.user.is_authenticated and request.user.is_staff:
+            return redirect('home')
+        return render(request, self.template_name)
+    
+    def post(self, request):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Use Django's authenticate function to check credentials
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None and user.is_staff:
+            login(request, user)
+            # Redirect to home page where manage and edit sections will be visible
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid credentials or insufficient permissions')
+            return render(request, self.template_name)

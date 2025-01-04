@@ -3,11 +3,11 @@
 ##############*/
 
 .header {
-    background: rgb(177, 177, 177) url("img/header.png") no-repeat fixed center; 
-    min-height: 100hv;
-    position: relative;
-    z-index: 1;
-    font-family:'Source Sans Pro', sans-serif;
+  background: linear-gradient(rgba(177, 177, 177, 0.9), rgba(177, 177, 177, 0.9)), url('../static/img/mindful-hrz.png') no-repeat fixed right;
+  min-height: 100hv;
+  position: relative;
+  z-index: 1;
+  font-family:'Source Sans Pro', sans-serif;
   }
   
   @media (min-width:768px) {

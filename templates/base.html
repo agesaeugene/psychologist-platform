@@ -21,7 +21,8 @@
 <body>
 
   <div class="header" style="
-    background: rgb(177, 177, 177) url('../static/img/header.png') no-repeat fixed center
+    background: rgb(177, 177, 177) url('../static/img/mindful-hrz.png') no-repeat fixed right;
+    background-size: 600px;  /* Adjust this value to control image size */
     {% if "appointment" in request.path or "edit-profile" in request.path %}
      max-height:300px!important;min-height:300px!important;
     {% endif %}
