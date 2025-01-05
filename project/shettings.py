@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,16 +10,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SK")
+SECRET_KEY = config("SK")     
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    'eugeneagesa.pythonanywhere.com',
-    'localhost',
-    '127.0.0.1',
-    ]
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -68,13 +65,26 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+ #   }
+    
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME' : 'railway', 
+        'USER' : 'postgres',
+        'PASSWORD': 'KJFbnDcxeTFxLqKSwVAhKvvrkAGgccaS',
+        'HOST' : 'postgres.railway.internal',
+        'PORT' : '5432',
     }
 }
 
+# python manage.py migrate
+# python manage.py runserver
+# python manage.py create superuser 
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -116,6 +126,9 @@ if DEBUG:
 else:
     STATIC_ROOT = BASE_DIR / "static"
 
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -134,6 +147,14 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_USE_SSL = False 
 EMAIL_HOST_USER = config("EADDRESS")
 EMAIL_HOST_PASSWORD = "oewc ddyc kdma thwp"
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", inculde("project.urls"))
+]
+
+urlpatterns += static(settings.MEDIA_URLS, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
