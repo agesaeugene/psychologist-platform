@@ -99,7 +99,7 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'project', 'static'),  # Update this path to match your structure
+    os.path.join(BASE_DIR, 'static'),  # This points directly to your 'static' folder
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
