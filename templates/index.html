@@ -356,7 +356,7 @@
                           <div class="main-card">
                               <div class="glass-effect rounded p-4 text-center position-relative">
                                   {% if therapist.image %}
-                                      <img src="{{ therapist.image.url }}" 
+                                      <img src="data:{{ therapist.image_content_type }};base64,{{ therapist.get_image_base64 }}" 
                                            class="profile-img rounded-circle border border-4 border-white mx-auto d-block"
                                            alt="{{ therapist.name }}">
                                   {% else %}
