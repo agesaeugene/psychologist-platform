@@ -124,7 +124,7 @@ class ManageAppointmentTemplateView(LoginRequiredMixin, ListView):
 class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
     template_name = 'edit-profile.html'
     model = TherapistProfile
-    fields = ['name', 'title', 'location', 'bio', 'image', 'twitter', 'linkedin', 'facebook', 'website']
+    fields = ['name', 'title', 'location', 'bio', 'twitter', 'linkedin', 'facebook', 'website']  # Removed 'image' as we'll handle it separately
     success_url = reverse_lazy('edit-profile')
 
     def get_object(self):
@@ -157,13 +157,14 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
                 form.instance.username = f"{base_username}_{existing_profiles_count + 1}" if existing_profiles_count > 0 else base_username
                 form.instance.profile_order = existing_profiles_count + 1
             
+            # Handle image upload
             if 'image' in self.request.FILES:
                 try:
-                    if form.instance.pk and form.instance.image:
-                        old_image_path = form.instance.image.path
-                        if os.path.isfile(old_image_path):
-                            os.remove(old_image_path)
-                    form.instance.image = self.request.FILES['image']
+                    image_file = self.request.FILES['image']
+                    # Store binary data
+                    form.instance.image = image_file.read()
+                    form.instance.image_filename = image_file.name
+                    form.instance.image_content_type = image_file.content_type
                 except Exception as img_error:
                     messages.warning(self.request, "There was an issue with the image upload, but the profile was saved.")
 
@@ -174,7 +175,7 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
                     'status': 'success',
                     'message': 'Profile updated successfully!',
                     'redirect_url': reverse_lazy('edit-profile') + f'?profile_id={form.instance.id}',
-                    'image_url': form.instance.image.url if form.instance.image else None
+                    'image_url': f'data:{form.instance.image_content_type};base64,{form.instance.get_image_base64()}' if form.instance.image else None
                 })
             
             messages.success(self.request, "Profile saved successfully!")
@@ -194,14 +195,6 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
             try:
                 profile_id = request.POST.get('profile_id')
                 profile = get_object_or_404(TherapistProfile, id=profile_id)
-                
-                if profile.image:
-                    try:
-                        if os.path.isfile(profile.image.path):
-                            os.remove(profile.image.path)
-                    except Exception as img_del_error:
-                        print(f"Error deleting image: {str(img_del_error)}")
-                
                 profile.delete()
 
                 remaining_profiles = TherapistProfile.objects.filter(
@@ -225,7 +218,6 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
                 }, status=400)
 
         return super().post(request, *args, **kwargs)
-        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -235,7 +227,6 @@ class EditProfileTemplateView(LoginRequiredMixin, UpdateView):
                 username__startswith=self.request.user.username
             ).order_by('profile_order'),
             'is_new_profile': bool(self.request.GET.get('new_profile')),
-            'media_url': settings.MEDIA_URL
         })
 
         profile_id = self.request.GET.get('profile_id')

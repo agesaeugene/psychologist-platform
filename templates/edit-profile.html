@@ -115,7 +115,7 @@
             <div class="card {% if selected_profile and selected_profile.id == therapist.id %}border-primary{% endif %}">
                 <div class="card-body text-center">
                     {% if therapist.image %}
-                    <img src="{{ therapist.image.url }}" 
+                    <img src="data:{{ therapist.image_content_type }};base64,{{ therapist.get_image_base64 }}" 
                          alt="{{ therapist.name }}" 
                          class="rounded-circle mb-3" 
                          style="width: 100px; height: 100px; object-fit: cover;"
@@ -181,7 +181,7 @@
                             <label for="id_image">Profile Image</label>
                             {% if object.image %}
                             <div class="mb-2">
-                                <img src="{{ object.image.url }}" 
+                                <img src="data:{{ object.image_content_type }};base64,{{ object.get_image_base64 }}" 
                                      alt="Current Profile Image" 
                                      class="profile-image-preview" 
                                      id="currentImage">
@@ -249,31 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let profileToDelete = null;
 
     // Image preview functionality
-    if (imageInput) {
-        imageInput.addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
-                const reader = new FileReader();
-                let imagePreview = document.getElementById('currentImage');
-                
-                if (!imagePreview) {
-                    imagePreview = document.createElement('img');
-                    imagePreview.id = 'currentImage';
-                    imagePreview.className = 'profile-image-preview mb-2';
-                    imagePreview.style.maxWidth = '200px';
-                    imagePreview.style.borderRadius = '50%';
-                    e.target.parentNode.insertBefore(imagePreview, e.target);
-                }
-                
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                };
-                
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
-    }
-
-    // Form submission handling
     if (form) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -306,6 +281,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
                 
                 if (response.ok) {
+                    // Update image preview if new image URL is provided
+                    if (data.image_url) {
+                        const imagePreview = document.getElementById('currentImage');
+                        if (imagePreview) {
+                            imagePreview.src = data.image_url;
+                        }
+                    }
+
                     const messageDiv = document.createElement('div');
                     messageDiv.className = 'alert alert-success';
                     messageDiv.textContent = data.message || 'Profile saved successfully!';
