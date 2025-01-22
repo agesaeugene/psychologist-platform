@@ -92,7 +92,9 @@ def logout_user(request):
     messages.success(request, 'You have been logged out successfully!')
     return redirect('home')
 
-class HomeTemplateView(LoginRequiredMixin, TemplateView):
+class HomeTemplateView(TemplateView):
+    template_name = "index.html"
+
     def get_template_names(self):
         if self.request.user.is_authenticated:
             return ["index-2.html"]
