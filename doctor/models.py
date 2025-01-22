@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 import base64
+from django.contrib.auth.models import User
 
 class Appointment(models.Model):
     first_name = models.CharField(max_length=100, null=True, blank=True)
@@ -10,6 +11,7 @@ class Appointment(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
     request = models.TextField(default='No request provided')
     accepted = models.BooleanField(default=False)
+    rejected = models.BooleanField(default=False)
     accepted_date = models.DateTimeField(null=True, blank=True)
     meet_link = models.URLField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_created=True, default=timezone.now)
@@ -45,16 +47,51 @@ class TherapistProfile(models.Model):
 
     def save(self, *args, **kwargs):
         self.full_clean()
+        
+        # Ensure image content type has a default value
+        if self.image and not self.image_content_type:
+            self.image_content_type = 'image/jpeg'
+            
         super().save(*args, **kwargs)
 
     def get_image_base64(self):
         """Return base64 encoded image data for use in templates"""
-        if self.image:
-            return base64.b64encode(self.image).decode('utf-8')
-        return None
+        try:
+            if not self.image:
+                return None
+                
+            # Handle bytes data from BinaryField
+            if isinstance(self.image, bytes):
+                return base64.b64encode(self.image).decode('utf-8')
+            # Handle memoryview data (which Django might return)
+            elif isinstance(self.image, memoryview):
+                return base64.b64encode(self.image.tobytes()).decode('utf-8')
+            else:
+                return None
+        except Exception as e:
+            print(f"Error encoding image: {e}")
+            return None
 
     def __str__(self):
         return f"{self.name} ({self.username})"
+    
+class Testimonial(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Testimonial by {self.user.username}"
 
     class Meta:
-        ordering = ['profile_order', 'created_at']
+        ordering = ['created_at']
+
+class AllAppointment(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    request = models.TextField()
+    accepted = models.BooleanField(default=False)
+    meet_link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Appointment by {self.user.username} on {self.created_at}"
