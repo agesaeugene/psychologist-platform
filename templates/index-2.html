@@ -1,125 +1,445 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}
+Home Page
+{% endblock title %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Family Doctor</title>
-  <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
+{% load static %}
+{% block style %}
+.prof {
+  min-height: 100vh;
+  background: linear-gradient(to top, #2e395f, #006eff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
 
-<body>
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+}
 
-  <div class="header" style="background: rgb(177, 177, 177) url('img/header.png') no-repeat fixed center">
-    
-    <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-        <div class="container"><a class="navbar-brand" href="#">Family Doctor X</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse"
-                id="navcol-1">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="#team">Our Team</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="#services">Services</a>
-                    </li>
-                    
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="#reviews">Testimonial</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="#contact">Contact Us</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <a class="nav-link active" href="manage-appointments.html">Manage</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a href="manage-appointments.html" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
-                      <i class="far fa-bell" style="font-size: 20px; float: left; color: black">
-                      </i>
-                  </a>
-                  <span class="badge badge-danger">6</span>
-                </li>
-                  
-                    <!-- <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a>
-                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-                    </li> -->
-                </ul>
-            </div>
-        </div>
-    </nav>
-   
-    <div class="container hero">
+.main-card {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s ease-in-out;
+  width: 240px; /* Equivalent to w-60 */
+}
+
+.panel-data {
+  transition: all 0.5s ease-in-out;
+  transform: translateY(-100%);
+  opacity: 0;
+  background-color: #101232;
+  color: white;
+}
+
+.panel-social {
+  position: absolute;
+  top: calc(100% + 80px);
+  left: 0;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  transform: translateY(-20px);
+  opacity: 0;
+  z-index: 0;
+  background-color: #101232;
+}
+
+.data-visible .panel-data {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.data-visible .panel-social {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.data-visible .main-card {
+  transform: translateY(80px);
+}
+
+.panel-content {
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.content-visible .panel-content {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.social-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.social-icon:hover {
+  transform: scale(1.25);
+}
+
+.profile-img {
+  width: 5rem;
+  height: 5rem;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.profile-img:hover {
+  opacity: 1;
+}
+
+.view-content-btn {
+  background-color: #101232;
+  transition: transform 0.3s;
+}
+
+.view-content-btn:hover {
+  transform: scale(1.1);
+}
+
+.toggle-btn:hover {
+  transform: scale(1.5);
+}
+
+.glow-effect::before,
+.glow-effect::after {
+  content: '';
+  position: absolute;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  filter: blur(24px);
+}
+
+.glow-effect::before {
+  background: #2563eb;
+  right: 12px;
+  top: 0;
+}
+
+.glow-effect::after {
+  background: #5eead4;
+  left: 16px;
+  bottom: 0;
+}
+
+.card-wrapper {
+  padding-bottom: 60px;
+  margin: 0 15px;
+}
+
+/* Add space between cards */
+.card-column {
+  margin-bottom: 2rem;
+}
+/* General section styling */
+/* Service Section Base Styles */
+.services {
+  margin-bottom: 4rem;
+}
+
+/* Sessions Section */
+.sessions {
+  padding: 4rem 0;
+}
+
+.sessions__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.sessions__card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sessions__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Testimonials Section */
+.testimonials {
+  background-color: #f8f9fa;
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.testimonials blockquote {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 4px solid #0d6efd;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonials blockquote footer {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #6c757d;
+}
+
+/* Pricing Section */
+.pricing {
+  padding: 4rem 0;
+}
+
+.pricing__cards-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.pricing-card {
+  flex: 1 1 300px;
+  max-width: 350px;
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-card__heading {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.pricing-card__price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0d6efd;
+  margin-bottom: 1.5rem;
+}
+
+.pricing-card__price span {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: normal;
+}
+
+.pricing-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.pricing-card__features li {
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  position: relative;
+}
+
+.pricing-card__features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #0d6efd;
+}
+
+.pricing-card__cta {
+  margin-top: auto;
+  background-color: #0d6efd;
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.pricing-card__cta:hover {
+  background-color: #0b5ed7;
+  color: white;
+}
+
+/* Contact Section */
+.contact-detail-box {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-detail-box:hover {
+  transform: translateY(-5px);
+}
+
+.contact-detail-box i {
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+.contact-map {
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.form-main {
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sessions__cards,
+  .pricing__cards-inner {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-card {
+    max-width: 100%;
+  }
+  
+  .testimonials,
+  .pricing,
+  .contact-detail-box {
+    padding: 2rem 1rem;
+  }
+}
+.badge {
+  font-size: 0.9em;
+  padding: 0.5em 0.75em;
+}
+
+.table-responsive {
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.table td {
+  vertical-align: middle;
+}
+.testimonials {
+  background-color: #f8f9fa;
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.testimonials blockquote {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 4px solid #0d6efd;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonials blockquote footer {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #6c757d;
+}
+
+form .form-control {
+  margin-bottom: 1rem;
+}
+
+form .btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+{% endblock style %}
+{% block cta %}
+<div class="container hero">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
-                <h1>Exceptional Medical Care for All Ages.</h1>
+                <h1>Find Your Path to Wellness</h1>
                 <p> At our Medical Center
-                    we combine world class medicine
-                    with compassionate care. </p>
-                    <a href="appointment.html" class="btn btn-light btn-lg action-button" type="button">Book an appointment</a>
+                    Professional therapy sessions designed for you. 
+                    Discover peace, strength, and clarity today.</p>
+                    <a href="{% url 'appointment' %}" class="btn btn-light btn-lg action-button" type="button">Book an appointment</a>
             </div>
 
         </div>
     </div>
-</div>
+{% endblock cta %}
 
+{% block content %}
 
-
-
-<section class="container py-5"  style="margin-block:200px;" id="team">
-    <div class="row text-center ">
-        <div class="col-lg-8 mx-auto">
-            <h1 class="display-4">Our Team</h1>
-            <p class="lead">Rely on established and competent professionals.
-            </p>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row text-center">
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="./img/team1.jpg" alt="" class=" mh-100img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">Dr Sai</h5>
-                    <span class="small text-uppercase text-muted">Consultant anesthesiologist</span>
-                </div>
-            </div><!-- End -->
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="/img/team2.jpg" alt="" class=" mh-100 rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">Dr Samuel </h5>
-                    <span class="small text-uppercase text-muted">Consultant cardiothoracic</span>
-                </div>
-            </div><!-- End -->
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="/img/team3.jpg" alt="" class=" mh-100img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">Dr Sarra</h5>
-                    <span class="small text-uppercase text-muted">Consultant dermatologist</span>
-                </div>
-            </div><!-- End -->
-
-            <!-- Team item -->
-            <div class="col-xl-3 col-sm-6 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src="/img/team4.png" alt="" class=" mh-100img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                    <h5 class="mb-0">DR John</h5>
-                    <span class="small text-uppercase text-muted">Consultant Obstetrician</span>
-                </div>
-            </div><!-- End -->
-        </div>
-    </div>
-</section><!-- End -->
+<section class="container py-5" style="margin-block:200px;" id="team">
+  <h2 class="text-center mb-4">Your Appointments</h2>
+  
+  {% if user_appointments %}
+  <div class="table-responsive">
+      <table class="table table-hover">
+          <thead class="table-primary">
+              <tr>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Request</th>
+                  <th>Meeting Link</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for appointment in user_appointments %}
+              <tr>
+                  <td>{% if appointment.accepted_date %}
+                          {{ appointment.accepted_date|date:"F d, Y" }}
+                      {% else %}
+                          {{ appointment.created_at|date:"F d, Y" }}
+                      {% endif %}
+                  </td>
+                  <td>
+                      {% if appointment.accepted %}
+                          <span class="badge bg-success">Accepted</span>
+                      {% elif appointment.rejected %}
+                          <span class="badge bg-danger">Rejected</span>
+                      {% else %}
+                          <span class="badge bg-warning">Waiting</span>
+                      {% endif %}
+                  </td>
+                  <td>{{ appointment.request|truncatechars:50 }}</td>
+                  <td>
+                      {% if appointment.accepted and appointment.meet_link %}
+                          <a href="{{ appointment.meet_link }}" class="btn btn-sm btn-primary" target="_blank">
+                              Join Meeting
+                          </a>
+                      {% else %}
+                          -
+                      {% endif %}
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% else %}
+  <div class="text-center">
+      <p>You haven't made any appointments yet.</p>
+      <a href="{% url 'appointment' %}" class="btn btn-primary">Book Your First Appointment</a>
+  </div>
+  {% endif %}
+</section> <!-- End -->
 
 
 
@@ -127,89 +447,101 @@
   <div class="bg-primary text-center py-5 mb-4">
       <div class="container">
         <h1 class="fw-light text-white">Services</h1>
-        <p class="overview">We provide compassionate and expert care to our community. You are at the center of everything we do. Let us be your healthcare partner.</p>
+        <p class="overview">We offer personalized therapy services to support your mental health journey. Our experienced therapists are here to guide you through every step of your healing process.</p>
       </div>
     </div>
-  <div class="container">
-    <div class="row">
-      <!-- Team Member 1 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="/img/service1.jpg" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">Primary Care</h5>
-            <div class="card-text text-black-50">Your personalized medical professionals.</div>
-          </div>
+    <section id="sessions" class="sessions">
+      <div class="sessions__cards">
+        <div class="sessions__card">
+          <h3>Individual Therapy</h3>
+          <p>One-on-one sessions tailored to your unique needs and goals.</p>
+        </div>
+        <div class="sessions__card">
+          <h3>Couples Therapy</h3>
+          <p>Strengthen your relationship with guided counseling sessions.</p>
+        </div>
+        <div class="sessions__card">
+          <h3>Group Therapy</h3>
+          <p>Find support and encouragement in a safe group setting.</p>
         </div>
       </div>
-      <!-- Team Member 2 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="/img/service2.jpg" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">Dermatology</h5>
-            <div class="card-text text-black-50">Your skin care made easy.</div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <h2>What Our Clients Say</h2>
+    
+      <!-- Display Testimonials -->
+      {% for testimonial in testimonials %}
+      <blockquote>
+        <p>"{{ testimonial.comment }}"</p>
+        <footer>- {{ testimonial.user.username }}</footer>
+      </blockquote>
+      {% empty %}
+      <p>No testimonials yet. Be the first to leave a comment!</p>
+      {% endfor %}
+    
+      <!-- Testimonial Submission Form -->
+      {% if user.is_authenticated %}
+      <div class="mt-4">
+        <form method="post" action="{% url 'home' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="testimonial">Leave Your Feedback:</label>
+            <textarea class="form-control" id="testimonial" name="testimonial" rows="3" placeholder="Write your experience here..." required></textarea>
           </div>
-        </div>
+          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
       </div>
-      <!-- Team Member 3 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="/img/service3.jpg" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">Team Member</h5>
-            <div class="card-text text-black-50">Web Developer</div>
-          </div>
-        </div>
-      </div>
-      <!-- Team Member 4 -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow">
-          <img src="/img/service4.jpg" class="card-img-top" alt="...">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-0">PrEP Therapy</h5>
-            <div class="card-text text-black-50">Stay safe if you are at high exposure of HIV.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /.row -->
+      {% else %}
+      <p class="text-muted">You must <a href="{% url 'login' %}">log in</a> to leave a testimonial.</p>
+      {% endif %}
+    </section>
+
+    <section id="pricing" class="pricing">
+        <h2>Our Pricing Plans</h2>
+        <div class="pricing__cards">
+          <div class="pricing__cards-inner">
+            <div class="pricing-card">
+              <h3 class="pricing-card__heading">Individual Therapy</h3>
+              <p class="pricing-card__price">Kes 3000<span>/session</span></p>
+              <ul class="pricing-card__features">
+                <li>50-minute one-on-one session</li>
+                <li>Personalized treatment plan</li>
+                <li>Flexible scheduling</li>
+                <li>24/7 messaging support</li>
+              </ul>
+              <a href="#book-individual" class="pricing-card__cta">Book Session</a>
+            </div>
   
-  </div>
-</section>
-
-<section class="text-center conatiner" style="margin-block:200px;" id="reviews">
-    <h2>Satisfied Patients</h2>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Carousel indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>   
-        <!-- Wrapper for carousel items -->
-        <div class="carousel-inner">		
-            <div class="carousel-item active">
-                <div class="img-box"><img src="/img/patient1.jpg" alt=""></div>
-                <p class="testimonial">Phasellus vitae suscipit justo. Mauris pharetra feugiat ante id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget rutrum.</p>
-                <p class="overview">Michael Holz</p>
+            <div class="pricing-card">
+              <h3 class="pricing-card__heading">Couples Therapy</h3>
+              <p class="pricing-card__price">kes 4000 <span>/session</span></p>
+              <ul class="pricing-card__features">
+                <li>75-minute couple session</li>
+                <li>Relationship assessment</li>
+                <li>Joint treatment planning</li>
+                <li>Between-session support</li>
+                <li>Communication tools</li>
+              </ul>
+              <a href="#book-couples" class="pricing-card__cta">Book Session</a>
             </div>
-            <div class="carousel-item">
-                <div class="img-box"><img src="/img/patient2.jpg" alt=""></div>
-                <p class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem tempor, varius quam at, luctus dui. Mauris magna metus, dapibus nec turpis vel, semper malesuada ante. Vestibulum idac nisl bibendum scelerisque non non purus. Suspendisse varius nibh non aliquet.</p>
-                <p class="overview">Antonio Moreno</p>
+  
+            <div class="pricing-card">
+              <h3 class="pricing-card__heading">Group Therapy</h3>
+              <p class="pricing-card__price">kes 6000<span>/session</span></p>
+              <ul class="pricing-card__features">
+                <li>90-minute group session</li>
+                <li>Small group setting (6-8 people)</li>
+                <li>Peer support network</li>
+                <li>Weekly sessions</li>
+                <li>Community resources</li>
+              </ul>
+              <a href="#book-group" class="pricing-card__cta">Join Group</a>
             </div>
-            <div class="carousel-item">
-                <div class="img-box"><img src="/img/patient3.jpg" alt=""></div>
-                <p class="testimonial">Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget nisi a mi suscipit tincidunt. Utmtc tempus dictum risus. Pellentesque viverra sagittis quam at mattis. Suspendisse potenti. Aliquam sit amet gravida nibh, facilisis gravida odio. Phasellus auctor velit.</p>
-                <p class="overview">Paula Wilson</p>
-                
-            </div>		
+          </div>
+          <div class="pricing-overlay"></div>
         </div>
-
-    </div>
-
-</section>
+      </section>
 
 
 <section id="contact" class="card m-4 p-4">
@@ -220,8 +552,8 @@
             <div class="contact-detail-box">
               <i class="far fa-envelope text-colored fa-3x"></i>
               <h4>Get In Touch</h4>
-              <abbr title="Phone">P:</abbr> (123) 456-7890<br>
-              E: <a href="mailto:email@email.com" class="text-muted">email@email.com</a>
+              <abbr title="Phone">P:</abbr> (+254) 741589416<br>
+              E: <a href="mailto:email@email.com" class="text-muted">email@eugenethebandit@gmail.com</a>
             </div>
           </div><!-- end col -->
   
@@ -231,8 +563,8 @@
               <h4>Our Location</h4>
   
               <address>
-              795 Folsom Ave, Suite 600<br>
-              San Francisco, CA 94107<br>
+              795 Folsom Ave, Spur Mall<br>
+              Nairobi , Ke 94107<br>
             </address>
             </div>
           </div><!-- end col -->
@@ -246,39 +578,29 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="contact-map">
-              <iframe src="https://www.google.com/maps/embed/v1/place?q=New+York+University&amp;key=AIzaSyBSFRN6WWGYwmFi498qXXsD2UwkbmD74v4" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width: 100%; height: 360px;"></iframe>
+              <iframe src="https://www.google.com/maps/embed/v1/place?q=Spur+Mall,+Ruiru,+Kenya&key=AIzaSyBSFRN6WWGYwmFi498qXXsD2UwkbmD74v4" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width: 100%; height: 360px;"></iframe>
             </div>
           </div><!-- end col -->
   
           <!-- Contact form -->
           <div class="col-sm-6">
-            <form role="form" name="ajax-form" id="ajax-form" method="post" class="form-main">
-  
+            <form role="form" name="ajax-form" id="ajax-form" method="post" action="{% url 'home' %}" class="form-main">
+              {% csrf_token %}
               <div class="form-group">
-                <label for="name2">Name</label>
-                <input class="form-control" id="name2" name="name" type="text" placeholder="name">
-                <div class="error" id="err-name" style="display: none;">Please enter name</div>
-              </div> <!-- /Form-name -->
-  
+                  <label for="name2">Name</label>
+                  <input class="form-control" id="name2" name="name" type="text" placeholder="Name" required>
+              </div>
               <div class="form-group">
-                <label for="email2">Email</label>
-                <input class="form-control" id="email2" name="email" type="text" placeholder="email">
-                <div class="error" id="err-emailvld" style="display: none;">E-mail is not a valid format</div> 
-              </div> <!-- /Form-email -->
-  
+                  <label for="email2">Email</label>
+                  <input class="form-control" id="email2" name="email" type="email" placeholder="Email" required>
+              </div>
               <div class="form-group">
-                <label for="message2">Message</label>
-                <textarea class="form-control" id="message2" name="message" rows="5" placeholder="message">Message</textarea>
-  
-                <div class="error" id="err-message" style="display: none;">Please enter message</div>
-              </div> <!-- /col -->
-  
-              <div class="row">            
-                  <button type="submit" class="btn btn-primary btn-shadow btn-rounded w-md" id="send">Send</button>
-                </div> <!-- /col -->
-              </div> <!-- /row -->
-  
-            </form> <!-- /form -->
+                  <label for="message2">Message</label>
+                  <textarea class="form-control" id="message2" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Send</button>
+          </form>
+           <!-- /form -->
           </div> <!-- end col -->
   
         </div> <!-- end row -->
@@ -286,20 +608,53 @@
       </div>
 </section>
 
+{% block script %}
+<script>
+// Function to set up event listeners and animations for each card
+function initializeCard(cardNumber) {
+    const cardContainer = document.getElementById(`cardContainer${cardNumber}`);
+    const toggleData = document.getElementById(`toggleData${cardNumber}`);
+    const viewContent = document.getElementById(`viewContent${cardNumber}`);
+    const closeContent = document.getElementById(`closeContent${cardNumber}`);
+    let isDataVisible = false;
+
+    if (!cardContainer || !toggleData || !viewContent || !closeContent) return;
+
+    // Toggle data panel
+    toggleData.addEventListener('click', function() {
+        isDataVisible = !isDataVisible;
+        if (isDataVisible) {
+            cardContainer.classList.add('data-visible');
+            toggleData.innerHTML = '<span class="material-symbols-outlined">close</span>';
+        } else {
+            cardContainer.classList.remove('data-visible');
+            toggleData.innerHTML = '<span class="material-symbols-outlined">density_large</span>';
+        }
+    });
+
+    // View content panel
+    viewContent.addEventListener('click', function() {
+        cardContainer.classList.add('content-visible');
+    });
+
+    // Close content panel
+    closeContent.addEventListener('click', function() {
+        cardContainer.classList.remove('content-visible');
+    });
+}
+
+// Initialize all cards when the document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all card containers
+    const cardContainers = document.querySelectorAll('.card-container');
+    
+    // Initialize each card with its index + 1
+    cardContainers.forEach((container, index) => {
+        initializeCard(index + 1);
+    });
+});
+</script>
+{% endblock script %} 
 
 
-
-
-
-
-  <!--  JQuery  -->
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <!--  Bootstrap tooltips  -->
-  <script type="text/javascript" src="js/popper.min.js"></script>
-  <!--  Bootstrap core JavaScript  -->
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  
- 
-</body>
-
-</html>
+{% endblock content %}

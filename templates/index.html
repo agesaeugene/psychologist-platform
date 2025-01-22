@@ -320,6 +320,37 @@ Home Page
     padding: 2rem 1rem;
   }
 }
+.testimonials {
+  background-color: #f8f9fa;
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.testimonials blockquote {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 4px solid #0d6efd;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonials blockquote footer {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #6c757d;
+}
+
+form .form-control {
+  margin-bottom: 1rem;
+}
+
+form .btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
 {% endblock style %}
 {% block cta %}
 <div class="container hero">
@@ -459,14 +490,32 @@ Home Page
 
     <section id="testimonials" class="testimonials">
       <h2>What Our Clients Say</h2>
+    
+      <!-- Display Testimonials -->
+      {% for testimonial in testimonials %}
       <blockquote>
-        <p>"These sessions changed my life. I feel more in control and at peace than ever before."</p>
-        <footer>- A Happy Client</footer>
+        <p>"{{ testimonial.comment }}"</p>
+        <footer>- {{ testimonial.user.username }}</footer>
       </blockquote>
-      <blockquote>
-        <p>"Our couples therapy helped us communicate and rebuild trust. Highly recommend!"</p>
-        <footer>- Satisfied Couple</footer>
-      </blockquote>
+      {% empty %}
+      <p>No testimonials yet. Be the first to leave a comment!</p>
+      {% endfor %}
+    
+      <!-- Testimonial Submission Form -->
+      {% if user.is_authenticated %}
+      <div class="mt-4">
+        <form method="post" action="{% url 'home' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="testimonial">Leave Your Feedback:</label>
+            <textarea class="form-control" id="testimonial" name="testimonial" rows="3" placeholder="Write your experience here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+      </div>
+      {% else %}
+      <p class="text-muted">You must <a href="{% url 'login' %}">log in</a> to leave a testimonial.</p>
+      {% endif %}
     </section>
 
     <section id="pricing" class="pricing">
